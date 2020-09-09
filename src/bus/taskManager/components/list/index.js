@@ -4,7 +4,7 @@ import React from 'react';
 // Elements
 import { Task } from '../../../../elements/task';
 
-export const List = ({ items }) => {
+export const List = ({ items, setItems }) => {
     const listJSX = items.map((
         {
             id,
@@ -13,9 +13,11 @@ export const List = ({ items }) => {
         }
     ) => (
         <Task
-            key={id}
+            id={id}
             label={title} 
-            isCompleted={isCompleted} 
+            isCompleted={isCompleted}
+            setItems={setItems}
+            items={items}
         />
     ))
 

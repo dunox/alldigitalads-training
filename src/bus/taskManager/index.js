@@ -1,32 +1,43 @@
 // Core
-import React from 'react';
+import React, {useState} from 'react';
 
 // Components
 import { Text, TextField } from '@fluentui/react';
 import { IconButton } from "office-ui-fabric-react";
 import { List } from './components/list';
 
-// Other
+//Hooks
+import {useAddTaskManager} from "./hooks/useAddTaskManager";
+import {useChangeTaskStatus} from "./hooks/useChangeTaskStatus";
+import {useRemoveTaskManager} from "./hooks/useRemoveTaskManager";
 import { useTaskManager } from './hooks/useTaskManager'
+
+// Other
 import classes from './TaskManager.module.css'
 
+
 export const TaskManager = ({ inputText ,setInputText }) => {
-    const { tasks, setTasks } = useTaskManager();
+    const [ flag, setFlag ] = useState(false);
+    const { tasks, setTasks } = useTaskManager(flag, setFlag);
+    const updateTask = useChangeTaskStatus();
+    const addTask = useAddTaskManager();
+    const removeTask = useRemoveTaskManager();
+
     const inputTextHandler = (e) => {
         setInputText(e.target.value);
     }
     const submitTaskHandler = (e) => {
-        e.preventDefault();
-        setTasks([
-            ...tasks,
-            {
-                id: Math.random() * 1000,
-                title: inputText,
-                isCompleted: false,
-            }
-        ]);
-        setInputText("");
+        if (inputText.length > 0) {
+            e.preventDefault();
+            addTask(inputText);
+            setInputText("");
+            setFlag(true);
+        } else {
+            return;
+        }
+
     }
+
     return (
        <div>
        <Text variant="xLarge">
@@ -45,7 +56,7 @@ export const TaskManager = ({ inputText ,setInputText }) => {
            />
        </div>
 
-        <List items={tasks} setItems={setTasks}/>
+        <List items={tasks} updateTask={updateTask} removeTask={removeTask} setFlag={setFlag}/>
     </div> 
     )
 };

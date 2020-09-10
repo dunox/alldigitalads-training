@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../../api';
 
 
-export const useTaskManager = () => {
+export const useTaskManager = ( flag, setFlag ) => {
     const [ tasks, setTasks ] = useState([]);
 
     useEffect( () => {
@@ -14,6 +14,17 @@ export const useTaskManager = () => {
             setTasks(tasks);
         })();
     }, []);
+
+    useEffect( () => {
+        ( async () => {
+            if(flag === true){
+                const tasks = await api.tasks.getAll();
+                setTasks(tasks);
+                setFlag(false);
+            }
+
+        })();
+    }, [flag]);
     return {
         tasks,
         setTasks

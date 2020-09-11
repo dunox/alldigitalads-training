@@ -9,6 +9,6 @@ export const taskManagerActions = {
     }),
     // Async
     fetchTasksAsync: () => ({
-        types: types.TASK_MANAGER_FETCH_TASKS_ASYNC,
+        type: types.TASK_MANAGER_FETCH_TASKS_ASYNC,
     })
 }

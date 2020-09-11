@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { api } from '../../api';
 import {taskManagerActions} from "../../actions";
 
-const mockData = [
-    {
-        id: 'A-1',
-        title: 'Learn Git',
-        isCompleted: false
-    }
-];
+// const mockData = [
+//     {
+//         id: 'A-1',
+//         title: 'Learn Git',
+//         isCompleted: false
+//     }
+// ];
 
 export const useTaskManager = ( flag, setFlag ) => {
     const dispatch = useDispatch();
@@ -20,19 +20,19 @@ export const useTaskManager = ( flag, setFlag ) => {
     const { tasks } = useSelector( (state) => state.taskManager);
 
     useEffect( () => {
-        dispatch(taskManagerActions.fillTasks(mockData))
+        dispatch(taskManagerActions.fetchTasksAsync(tasks))
     }, [dispatch]);
 
-    useEffect( () => {
-        ( async () => {
-            if(flag === true){
-                const tasks = await api.tasks.getAll();
-                // setTasks(tasks);
-                setFlag(false);
-            }
-
-        })();
-    }, [flag]);
+    // useEffect( () => {
+    //     ( async () => {
+    //         if(flag === true){
+    //             const tasks = await api.tasks.getAll();
+    //             // setTasks(tasks);
+    //             setFlag(false);
+    //         }
+    //
+    //     })();
+    // }, [flag]);
     return {
         tasks,
         // setTasks
